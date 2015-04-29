@@ -11,7 +11,12 @@
   padding: 1px;
   height: 26px;
 }
-body.mobile.videoPopupActive .ui-dialog-titlebar {
+
+.videoPopupContent{
+	display:none;
+}
+
+/*body.mobile.videoPopupActive .ui-dialog-titlebar {
 	padding:0 1em 1em!important;
 }
 body.mobile.videoPopupActive .ui-dialog .ui-icon-closethick{
@@ -26,7 +31,4 @@ body.mobile.videoPopupActive .ui-dialog .ui-dialog-titlebar-close {
 body.mobile.videoPopupActive .ui-dialog .ui-dialog-titlebar-close:before {
 	font-size: 11px;
 	left: 4.3px;
-}
-.videoPopupContent{
-	display:none;
-}
+}*/
