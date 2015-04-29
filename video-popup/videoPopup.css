@@ -1,0 +1,32 @@
+/* videoPopUp */
+.videoHeroDialog .ui-dialog-titlebar-close{
+	top: 23%;
+}
+.ui-dialog.videoHeroDialog .ui-dialog-titlebar-close {
+  position: absolute;
+  right: .3em;
+  top: 3%;
+  width: 25px;
+  margin: -10px 0 0 0;
+  padding: 1px;
+  height: 26px;
+}
+body.mobile.videoPopupActive .ui-dialog-titlebar {
+	padding:0 1em 1em!important;
+}
+body.mobile.videoPopupActive .ui-dialog .ui-icon-closethick{
+	margin-right: 5px;
+	top: -4px;
+}
+body.mobile.videoPopupActive .ui-dialog .ui-dialog-titlebar-close {
+	top:7%;
+	right: 12px;
+}
+
+body.mobile.videoPopupActive .ui-dialog .ui-dialog-titlebar-close:before {
+	font-size: 11px;
+	left: 4.3px;
+}
+.videoPopupContent{
+	display:none;
+}
