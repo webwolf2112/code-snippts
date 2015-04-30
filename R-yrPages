@@ -1,0 +1,427 @@
+var customApp = {};
+
+	//switching the header sections to the correct header
+	customApp.headerSwitch = function(){
+	//function to move to the three different sections
+
+	var newMargin = 0;
+	var sectionWidth = $('.all-sections').width();
+
+	$('.middle-nav .top a').on('click', function(){
+		$('.middle-nav .top a').removeClass('active-section');
+
+		$(this).addClass('active-section');
+			//getting the index of the link and animating the margin to the correct section
+			var index = $(this).index(); 
+
+			if(index > 0){
+				newMargin = -(sectionWidth * index);
+			} else{
+				newMargin = 0;
+			}
+
+			//moving the top heading to the correct title
+			$('.middle-nav .middle ul').animate({marginLeft: newMargin + "px"});
+
+			//active sectiontitle
+			customApp.activeSection();
+
+			return false;
+
+
+		}); 
+	}// end customApp.headerSwitch
+
+	//switch sections
+	customApp.switchSections = function(){
+
+
+		//get section width and set the ul width
+		var $allSections = $('.all-sections')
+		var sectionWidth = $allSections.width();
+		var windowWidth = $(window).width();
+
+		$(window).resize(function(){
+			var windowWidth = $(window).width();
+		});
+
+
+		//click link to switch sections
+		$('#yrpage .top-links div').on('click', function(){
+
+			//get the current index
+			var index = $(this).index();
+			var $section = $('#yrpage ul.sections');
+			var $heading = $('#yrpage .middle-header ul');
+			var $links = $('#yrpage .bottom ul');
+
+			// $('.all-sections').css('height', singleSectionHeight);
+			$(".small-section").removeAttr('style');
+
+			//get the negative margin for the current index
+			var newMargin = sectionWidth * index;
+			var newMarginHeadings = windowWidth * index;
+
+			//animate the section, heading and links
+			$section.animate({marginLeft: -newMargin});
+			$heading.animate({marginLeft: -newMargin});
+			$links.animate({marginLeft: -newMargin});
+
+
+			//change the current class
+			$('.middle-nav .top-links div').removeClass('active-section');
+			$(this).addClass('active-section');
+
+			//scroll to the top of the section
+			var $nav = $('#yrpage .middle-nav');
+			var navHeight = $nav.height();
+			navHeight -= 30;
+			var sectionTop = $allSections.offset().top;
+			
+
+			if($nav.hasClass('sticky')){
+				sectionTop = sectionTop - navHeight;
+				$('html, body').animate({scrollTop: sectionTop}, 1000);
+			}
+
+			//get each section height to prevent extra white space at the bottom
+			// var $thisSection = $('.full-section').eq(index);
+			// var singleSectionHeight = $thisSection.height();
+			// var sectionCount = 0;
+
+			//counting the number of sections to calulate the extra padding
+			// var numberOfSections = $('.full-section').eq(index).find('.small-section').each(function(){
+			// 	sectionCount +=1;
+			// });
+
+			// singleSectionHeight = singleSectionHeight + (navHeight * sectionCount);
+
+
+			// console.log("section height" + singleSectionHeight );
+
+			// $('.all-sections').css('height', singleSectionHeight);
+
+
+		});
+
+}//end customApp.switchSections
+
+	//sticky navigation
+	customApp.stickyNavigation = function(){
+
+		var windowScroll = $(window).scrollTop();
+		var $nav = $('#yrpage .middle-nav');
+		var navTop = $nav.offset().top;
+		var navHeight = $nav.height();
+
+		//sticky function if browser refresh
+		if(windowScroll > navTop){
+			$nav.addClass('sticky');
+			$('.small-section').css('padding-top', (navHeight - 30));
+		}else{
+			$nav.removeClass('sticky');
+		}
+
+		//get the scroll positions and make sticky or remove sticky
+		$(window).on('scroll', function(){
+			windowScroll = $(window).scrollTop();
+			
+			if(windowScroll > navTop){
+				$nav.addClass('sticky');
+				$('.small-section').css('padding-top', (navHeight - 30));
+			}else{
+				$nav.removeClass('sticky');
+				$('.small-section').removeAttr('style');
+			}
+
+		});
+
+	} //end customApp.stickyNavigation 
+
+	//smoothscroll
+	customApp.smoothScroll = function(){
+
+			//smooth scroll if not clicked on the carousel
+
+			$(function() {
+
+				//smooth scroll to links on the same page
+
+				$('a[href*=#]:not([href=#carousel])').click(function() {
+					if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'') && location.hostname == this.hostname) {
+						var target = $(this.hash);
+						target = target.length ? target : $('[name=' + this.hash.slice(1) +']');
+						if (target.length) {
+
+							var targetOriginal = target.offset().top;
+							var startScroll = $('.full-section li').first().offset().top;
+
+							//checking to see if it is the first item
+
+							if(targetOriginal > startScroll){
+
+								//running different scroll code if the nav menu is sticky
+								//had to calculate scroll position offset after padding was attached
+								if(!$('#yrpage .middle-nav').hasClass('sticky')){
+									$('html,body').animate({
+										scrollTop: 600
+									}, 200, "easeInQuad", function(){
+										$('html,body').animate({
+											scrollTop: target.offset().top
+										}, 800, "easeOutQuad");
+									});
+								}else{
+									$('html,body').animate({
+									scrollTop: target.offset().top
+								}, 1000);
+								}
+							// history.replaceState({}, '', '/'); 
+
+							}else{
+								var navHeight = ($('.middle-nav').height() + 150);
+
+								var newScroll = target.offset().top;
+								newScroll = newScroll - navHeight;
+								$('html,body').animate({
+									scrollTop: newScroll
+								}, 1000);
+							}
+
+							return false;
+						}
+					}
+				});
+			});
+
+		//smooth scroll with #onload  ** must be below page function
+		if(window.location.hash) {
+
+			var hash = window.location.hash.substring(1);
+			hash = $('#' + hash);
+
+			$('html,body').animate({
+				scrollTop: hash.offset().top
+			}, 1000);
+			return false;
+		}
+
+	} //end customApp.smoothScroll
+
+	//reebok popupVideo
+	customApp.popupVideo = function(){
+
+	// Append backup slide for HTML5 video
+	var ismobile = /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
+	var isPhone = false;
+
+	if($('body').hasClass('mobile')){
+		isPhone = true;
+	}
+
+	$(".videoPopup").on('click',function(){ 
+
+		$("body").addClass("videoPopupActive");
+
+		if( $("#dialogcontainer").length == 0 ) {
+			$(document.body).append("<div id=\"dialogcontainer\"></div>");
+		}				 
+
+		var $dialogcontainer = $("#dialogcontainer");
+
+			//attach a different size video if mobile
+
+			if(isPhone == true){
+				var $containerContent = $('.videoPopup').data('youtube');
+			}else{
+				var $containerContent = $('.videoPopupContent').html();
+			}
+			var title = $(this).attr("_dialogtitle");
+			if ( title == undefined ) title = null;
+
+			$dialogcontainer.dialog({
+				title: title,
+				dialogClass: 'bestOfSportDialog',
+				bgiframe: true,
+				autoOpen: false,  
+				modal: true,
+				height: "auto",
+				width: "auto",
+				resizable: false,
+				close: function() {
+					$dialogcontainer.remove();
+					$("body").removeClass("videoPopupActive");
+				}
+			});
+
+			$dialogcontainer.html( $containerContent ).dialog('open');					
+
+			// Autoplay the youtube video
+			var $iframe = $dialogcontainer.find('iframe').first();
+			$iframe.attr('src', $iframe.attr('src') + '?autoplay=true');
+			return false;   
+		});
+
+	} // end customApp.popupVideo
+
+	//inspire popup
+	customApp.shoePopUp = function(){
+
+	// Append backup slide for HTML5 video
+	var ismobile = /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
+	var isPhone = false;
+
+	if($('body').hasClass('mobile')){
+		isPhone = true;
+	}
+
+	$(".inspire-section a").on('click',function(){ 
+
+		$("body").addClass("videoPopupActive");
+
+		if( $("#dialogcontainer").length == 0 ) {
+			$(document.body).append("<div id=\"dialogcontainer\"></div>");
+		}				 
+
+		var $dialogcontainer = $("#dialogcontainer");
+
+			//attach a different size video if mobile
+
+			if(isPhone == true){
+				var $containerContent = $('.videoPopup').data('youtube');
+			}else{
+				var $containerContent = $('.shoePopupContent').html();
+			}
+			var title = $(this).attr("_dialogtitle");
+			if ( title == undefined ) title = null;
+
+			$dialogcontainer.dialog({
+				title: title,
+				dialogClass: 'shoeInspireDialog',
+				bgiframe: true,
+				autoOpen: false,  
+				modal: true,
+				height: "auto",
+				width: "960",
+				resizable: false,
+				close: function() {
+					$dialogcontainer.remove();
+					$("body").removeClass("videoPopupActive");
+				}
+			});
+
+			$dialogcontainer.html( $containerContent ).dialog('open');					
+
+			// Autoplay the youtube video
+			var $iframe = $dialogcontainer.find('iframe').first();
+			$iframe.attr('src', $iframe.attr('src') + '?autoplay=true');
+			return false;   
+		});
+
+	} // end customApp.popupVideo
+
+
+
+	//add active state to links
+	customApp.activeLinks = function(){
+		$('#yrpage .links a').on('click', function(){
+
+			var $this = $(this);
+			
+			$('#yrpage .links a').removeClass('active');
+			$this.addClass('active');
+		});
+	}
+
+	// swipe on mobile function
+	customApp.mobileSwipe = function(){
+		// Allow swipe
+			var clickStartX = 0;
+			var clickStartY = 0;
+			$("#yrpage .middle-nav, #yrpage .all-sections").swipe({
+				excludedElements:"button, input, select, textarea, .noSwipe",
+
+				swipeLeft:function(e) {
+
+					comsole.log("swiped left");
+
+					// Only swipe left if the swipe was more than 60 pixels horizontally
+					if (e.pageX < clickStartX + 60 && e.pageX > clickStartX - 60) {
+						return false;
+					}
+
+					//move the section to the top on swipe 
+					var sportSectionScrollPos = $sportSection.offset().top;
+					$('html, body').animate({
+                        scrollTop: sportSectionScrollPos + 'px'
+                    }, 500);
+
+					if(currentSection < numberOfSections){
+						moveToPosition(currentSection + 1);
+					} else {
+						moveToPosition(0);
+					}
+					return true;
+				},
+				swipeRight:function(e) {
+
+					// Only swipe left if the swipe was more than 60 pixels horizontally
+					if (e.pageX < clickStartX + 60 && e.pageX > clickStartX - 60) {
+						return false;
+					}
+
+					//move the section to the top on swipe
+					var sportSectionScrollPos = $sportSection.offset().top;
+					$('html, body').animate({
+                        scrollTop: sportSectionScrollPos + 'px'
+                    }, 500);
+					 
+					if(currentSection > 0){
+						moveToPosition(currentSection - 1);
+					} else {
+						moveToPosition(numberOfSections);
+					}
+					return true;
+				}
+
+			}).click(function(e) {
+				if (e.pageX < clickStartX + 10 && e.pageX > clickStartX - 10) {
+					if (e.pageY < clickStartY + 10 && e.pageY > clickStartY - 10) {
+						return true;
+					}
+				}
+				return false;
+			});
+
+			$("#bestOfSport .middle-nav, #bestOfSport .sport-section-container").bind('touchstart mousedown', function(e) {
+				clickStartX = e.pageX;
+				clickStartY = e.pageY;
+			});
+
+	}
+
+
+	$(document).ready(function(){
+
+	//switch sections
+	customApp.switchSections();
+
+	//sticky Nav
+	customApp.stickyNavigation();
+
+	//Video PopUp
+	customApp.popupVideo();
+
+	//Shoe Popup
+	customApp.shoePopUp();
+
+	//smooth scroll when clicked on ID links
+	customApp.smoothScroll();
+
+	//activate links
+	customApp.activeLinks();
+
+	//activate swipe
+	customApp.mobileSwipe();
+	
+
+});// end document ready
