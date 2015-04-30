@@ -1,5 +1,8 @@
 smoothScroll = function(){
 
+			//add this if you want to clear the # on refresh
+			//history.replaceState({}, '', '/'); 
+
 			//smooth scroll if not clicked on the carousel
 
 			$(function() {
