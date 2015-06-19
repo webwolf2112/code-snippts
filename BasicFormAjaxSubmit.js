@@ -70,13 +70,11 @@ newApp.ajaxForm = function(idForm, idSubmitbutton, idEmail){
 				crossDomain: true,
 				success: function(result) {
 					$(formId).remove(); // Remove form from document
-					$('#emailside .priv-policy').remove();
-					$('#emailside #thankyou').fadeIn(200);
+					$('#thankyou').fadeIn(200);
 				},
 				error: function(xhr, ajaxOptions, thrownError) {
 					$(formId).remove(); // Remove form from document
-					$('#emailside .priv-policy').remove();
-					$('#emailside #thankyou').fadeIn(200);
+					$('#thankyou').fadeIn(200);
 				}
 
 			});
@@ -85,3 +83,6 @@ newApp.ajaxForm = function(idForm, idSubmitbutton, idEmail){
 			
 		});
 	}
+
+//call the new app function in your document ready
+	newApp.ajaxForm('#fsForm2020738','#fsSubmitButton2020738', '#field32848938');
