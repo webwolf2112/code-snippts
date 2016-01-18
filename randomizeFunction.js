@@ -19,6 +19,5 @@ $.fn.shuffle = function() {
 };
 
 $('#itemContainer .item').shuffle();
-}
 
 
