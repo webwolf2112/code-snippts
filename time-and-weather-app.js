@@ -32,7 +32,7 @@ vhApp.module( 'dashboardApp' )
 		svc.getCurrentWeather = getCurrentWeather;
 		svc.getIpLocation = getIpLocation;
 		
-		// ***************************** Get App Options *****************************
+		// ******Get App Options ******
 		function getOptions() {
 			return $http({
 				method:		'POST',
@@ -81,7 +81,7 @@ vhApp.module( 'dashboardApp' )
 	function timeAppController( $scope, $timeout, dashboardAPI ) {
 		var time = this;
 		
-		// ***************************** Local Variables *****************************
+		// **** Local Variables *******
 		time.text = 'Current Time';
 		time.mountain = {
 			hour : 0,
