@@ -76,18 +76,15 @@ Stack-Slider Section
 				}
 			},
 			slickFunction : function () {
-				if( ! r20qSlider.isMobile() ) {
-
-					//initiate slick and move to the correct slide
-					$( '.rq-slider .js-slick' ).slick( {
-						slidesToScroll: 1,
-						slidesToShow: 5,
-						speed : 200,
-						centerMode: true,
-						initialSlide: activeSlide,
-						centerPadding: 0
-					} );
-				}
+				//initiate slick and move to the correct slide
+				$( '.rq-slider .js-slick' ).slick( {
+					slidesToScroll: 1,
+					slidesToShow: 5,
+					speed : 200,
+					centerMode: true,
+					initialSlide: activeSlide,
+					centerPadding: 0
+				} );
 			},
 			gridToggle : function ( newHeight ) {
 
@@ -123,13 +120,6 @@ Stack-Slider Section
 						$inner.html( $inner.attr( 'data-closed-txt' ) );
 					}
 				} );
-			},
-			isMobile : function () {
-				var isMobile = false;
-				if( $( 'body' ).hasClass( 'mobile' ) ) {
-					isMobile = true;
-				}
-				return isMobile;
 			}
 		};
 
